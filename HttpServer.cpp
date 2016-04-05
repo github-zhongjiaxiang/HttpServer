@@ -104,11 +104,13 @@ int HttpServer::run()
 		if(fork() == 0){
 			if(handleRequest()){
 				cerr<<funcName<<"Failed handling request"<<endl;
+				close(newsockfd);
 				exit(-1);
 			}
-
+			close(newsockfd);
 			exit(0);
 		}
+		wait(0);
 		close(newsockfd);
 	}
 
